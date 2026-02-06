@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport" />
+    <meta name="theme-color" content="#101c22">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Neon Pixel Sakura Petal Storm | NEON_ARCHITECT</title>
+
+    <!-- SYSTEM INTEGRITY CHECK / ERROR HANDLER -->
+    <script>
+        (function () {
+            // Prevent infinite redirect loop if 404 page itself fails (optional safety)
+            if (window.location.pathname.includes('404.html')) return;
+
+            function triggerSystemFailure(reason) {
+                console.error('SYSTEM FAILURE DETECTED:', reason);
+                console.log('Redirecting to Connection Lost...');
+                window.location.href = '/404.html';
+            }
+
+            // 1. Catch uncaught JS errors
+            window.onerror = function (message, source, lineno, colno, error) {
+                triggerSystemFailure(`Uncaught Exception: ${message}`);
+            };
+
+            // 2. Catch failed resources (img, script, css) - use capture=true
+            window.addEventListener('error', function (e) {
+                // Ensure it's an element loading error, not a window error bubbling up
+                if (e.target && (e.target.tagName === 'IMG' || e.target.tagName === 'SCRIPT' || e.target.tagName === 'LINK')) {
+                    triggerSystemFailure(`Resource Load Fail: ${e.target.tagName} -> ${e.target.src || e.target.href}`);
+                }
+            }, true);
+
+            // 3. Catch unhandled promise rejections
+            window.addEventListener('unhandledrejection', function (e) {
+                triggerSystemFailure(`Unhandled Promise: ${e.reason}`);
+            });
+        })();
+    </script>
+
+
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function () {
+            // REPLACE 'YOUR_PUBLIC_KEY' WITH YOUR ACTUAL PUBLIC KEY FROM EMAILJS
+            emailjs.init("LCqOOZiaIYfLFuZu-");
+        })();
+    </script>
+
+    <!-- Scripts & CSS Resources -->
+    <!-- Google Fonts Preconnect -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Noto+Sans:wght@400;700&display=swap"
+        rel="stylesheet" />
+
+    <!-- Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
+
+
+
+  <link rel="stylesheet" crossorigin href="/assets/index-BYx9vOWu.css">
+<link rel="manifest" href="/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/registerSW.js"></script></head>
+
+<body class="bg-background-dark overflow-x-hidden select-none">
+
+    <!-- ========================================== -->
+    <!-- LOADING SCREEN CONTAINER                   -->
+    <!-- ========================================== -->
+    <div id="loading-screen"
+        class="fixed inset-0 z-[200] bg-loader-bg flex flex-col items-center justify-center font-pixel text-white">
+        <!-- CRT Screen Effect -->
+        <div class="crt-overlay"></div>
+        <!-- Drifting Pixel Sakura Petals -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none opacity-40">
+            <div class="pixel-sakura" style="top: 10%; left: 20%;"></div>
+            <div class="pixel-sakura" style="top: 40%; left: 80%;"></div>
+            <div class="pixel-sakura" style="top: 70%; left: 15%;"></div>
+            <div class="pixel-sakura" style="top: 85%; left: 60%;"></div>
+            <div class="pixel-sakura" style="top: 30%; left: 45%;"></div>
+        </div>
+
+        <!-- Main Content Container -->
+        <div class="relative flex w-full flex-col items-center justify-center p-4">
+            <!-- Header Text Component -->
+            <div class="layout-content-container flex flex-col max-w-[960px] w-full text-center">
+                <h2
+                    class="text-loader-primary tracking-[0.2em] text-[24px] md:text-[32px] font-bold leading-tight pb-6 pt-5 glow-cyan-loader uppercase">
+                    INITIALIZING_SYSTEM...
+                </h2>
+            </div>
+            <!-- Progress Bar Component (Custom Pixel Aesthetic) -->
+            <div class="layout-content-container flex flex-col max-w-[640px] w-full mb-4">
+                <div class="flex flex-col gap-4 p-4">
+                    <div class="flex gap-6 justify-between items-end">
+                        <p
+                            class="text-loader-primary text-xs font-bold leading-normal tracking-widest opacity-80 uppercase">
+                            Portfolio_Kernel_v2.0.4</p>
+                        <p id="progress-text"
+                            class="text-loader-primary text-lg font-bold leading-normal glow-cyan-loader">0%</p>
+                    </div>
+                    <!-- Pixelated Bar Container -->
+                    <div class="pixel-border-loader bg-background-dark/80 h-12 p-1 flex" id="progress-bar-container">
+                        <!-- Progress Blocks will be injected here via JS -->
+                    </div>
+                </div>
+            </div>
+            <!-- MetaText / Status Module -->
+            <div class="layout-content-container flex flex-col max-w-[960px]">
+                <p id="loading-status"
+                    class="text-violet-500/70 text-[10px] md:text-sm font-medium tracking-[0.3em] pb-3 pt-1 px-4 text-center uppercase">
+                    LOADING_MODULES: <span class="text-violet-400">SAKURA_STORM</span>
+                </p>
+            </div>
+            <!-- Stats Grid for System Status -->
+            <div class="layout-content-container flex flex-col max-w-[800px] w-full mt-12 opacity-60">
+                <div class="flex flex-wrap gap-4 justify-center">
+                    <div
+                        class="flex min-w-[140px] flex-col gap-1 rounded border border-loader-primary/20 bg-loader-primary/5 p-4">
+                        <p class="text-loader-primary/60 text-[10px] font-bold tracking-tighter uppercase">MEM_LINK</p>
+                        <p class="text-loader-primary tracking-widest text-lg font-bold">STABLE</p>
+                    </div>
+                    <div
+                        class="flex min-w-[140px] flex-col gap-1 rounded border border-loader-primary/20 bg-loader-primary/5 p-4">
+                        <p class="text-loader-primary/60 text-[10px] font-bold tracking-tighter uppercase">SYNC_MODE</p>
+                        <p class="text-loader-primary tracking-widest text-lg font-bold">ASYNC</p>
+                    </div>
+                    <div
+                        class="flex min-w-[140px] flex-col gap-1 rounded border border-loader-primary/20 bg-loader-primary/5 p-4">
+                        <p class="text-loader-primary/60 text-[10px] font-bold tracking-tighter uppercase">SIGNAL_STR
+                        </p>
+                        <p class="text-loader-primary tracking-widest text-lg font-bold">94%</p>
+                    </div>
+                </div>
+            </div>
+            <!-- System Artifacts / Dead Pixels (Small visual detail) -->
+            <div class="absolute inset-0 pointer-events-none opacity-20">
+                <div class="absolute w-1 h-1 bg-white" style="top: 15%; left: 88%;"></div>
+                <div class="absolute w-2 h-0.5 bg-loader-primary" style="top: 65%; left: 5%;"></div>
+                <div class="absolute w-0.5 h-4 bg-loader-pink" style="top: 45%; left: 95%;"></div>
+            </div>
+        </div>
+        <!-- Footer Controls -->
+        <div class="fixed bottom-8 left-0 right-0 flex justify-center z-20">
+            <button id="skip-btn"
+                class="flex items-center gap-2 text-loader-primary/40 hover:text-loader-primary transition-colors text-xs tracking-widest uppercase cursor-pointer">
+                <span class="material-symbols-outlined text-sm">skip_next</span>
+                SKIP_SEQUENCE
+            </button>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- MAIN PORTFOLIO CONTENT (Initially Hidden)  -->
+    <!-- ========================================== -->
+    <div id="main-content" class="opacity-0 font-pixel">
+        <div class="scanlines"></div>
+
+        <!-- Background Petals -->
+        <div class="fixed inset-0 pointer-events-none layer-behind overflow-hidden">
+            <div class="sakura-petal sakura-bg w-2 h-2"
+                style="top: 5%; left: 12%; opacity: 0.3; transform: rotate(15deg);"></div>
+            <div class="sakura-petal sakura-violet w-3 h-3"
+                style="top: 18%; left: 88%; opacity: 0.2; transform: rotate(-45deg);"></div>
+            <div class="sakura-petal sakura-neon w-2 h-2"
+                style="top: 35%; left: 5%; opacity: 0.4; transform: rotate(60deg);"></div>
+            <div class="sakura-petal sakura-bg w-4 h-4"
+                style="top: 55%; left: 92%; opacity: 0.1; transform: rotate(120deg);"></div>
+            <div class="sakura-petal sakura-violet w-2 h-2"
+                style="top: 82%; left: 15%; opacity: 0.3; transform: rotate(30deg);"></div>
+            <div class="sakura-petal sakura-neon w-3 h-3"
+                style="top: 70%; left: 80%; opacity: 0.2; transform: rotate(-20deg);"></div>
+            <div class="sakura-petal sakura-bg w-2 h-2"
+                style="top: 25%; left: 45%; opacity: 0.15; transform: rotate(10deg);"></div>
+            <div class="sakura-petal sakura-neon w-1 h-1" style="top: 60%; left: 30%; opacity: 0.4;"></div>
+            <div class="sakura-petal sakura-violet w-2 h-2" style="top: 40%; left: 70%; opacity: 0.2;"></div>
+            <div class="sakura-petal sakura-bg w-3 h-3" style="top: 10%; left: 60%; opacity: 0.1;"></div>
+        </div>
+        <div class="fixed inset-0 pointer-events-none layer-front overflow-hidden">
+            <div class="sakura-petal sakura-bg w-3 h-3"
+                style="top: 12%; left: 25%; opacity: 0.7; transform: rotate(45deg);"></div>
+            <div class="sakura-petal sakura-neon w-2 h-2"
+                style="top: 48%; left: 75%; opacity: 0.8; transform: rotate(-10deg);"></div>
+            <div class="sakura-petal sakura-violet w-2 h-2"
+                style="top: 72%; left: 35%; opacity: 0.6; transform: rotate(180deg);"></div>
+            <div class="sakura-petal sakura-bg w-4 h-4"
+                style="top: 85%; left: 65%; opacity: 0.5; transform: rotate(95deg);"></div>
+            <div class="sakura-petal sakura-neon w-3 h-3"
+                style="top: 22%; left: 82%; opacity: 0.7; transform: rotate(33deg);"></div>
+            <div class="sakura-petal sakura-violet w-1 h-1" style="top: 55%; left: 15%; opacity: 0.9;"></div>
+        </div>
+        <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+            <div class="neon-grid"></div>
+        </div>
+
+        <header class="fixed top-0 left-0 right-0 z-[60] flex items-center justify-center p-4">
+            <nav class="w-full max-w-[960px]">
+                <div
+                    class="flex items-center justify-between border-b border-primary/20 bg-background-dark/80 backdrop-blur-md px-6 py-3 rounded">
+                    <div class="flex items-center gap-3">
+                        <div class="size-5 text-primary">
+                            <svg fill="currentColor" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                                <path
+                                    d="M4 42.4379C4 42.4379 14.0962 36.0744 24 41.1692C35.0664 46.8624 44 42.2078 44 42.2078L44 7.01134C44 7.01134 35.068 11.6577 24.0031 5.96913C14.0971 0.876274 4 7.27094 4 7.27094L4 42.4379Z">
+                                </path>
+                            </svg>
+                        </div>
+                        <h2 class="text-white glow-text-cyan !text-[0.75rem] tracking-tight uppercase">Neon_Arch</h2>
+                    </div>
+                    <div class="flex items-center gap-4 md:gap-8">
+                        <div class="hidden md:flex items-center gap-6">
+                            <a class="glow-text-cyan hover:text-white transition-colors" href="#about">ABOUT</a>
+                            <a class="glow-text-cyan hover:text-white transition-colors" href="#projects">PROJECTS</a>
+                            <a class="glow-text-cyan hover:text-white transition-colors" href="#skills">SKILLS</a>
+                        </div>
+                        <button
+                            class="hidden md:block bg-primary text-white px-4 py-2 rounded hover:brightness-110 transition-all uppercase glow-border-cyan">
+                            Contact
+                        </button>
+                        <!-- Mobile Hamburger -->
+                        <button id="mobile-menu-btn"
+                            class="md:hidden text-primary hover:text-white transition-colors z-50">
+                            <span class="material-symbols-outlined text-3xl">menu</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Mobile Menu Overlay -->
+                <div id="mobile-menu"
+                    class="hidden md:hidden absolute top-full left-0 right-0 mt-2 mx-4 bg-background-dark/95 backdrop-blur-xl border border-primary/20 rounded p-6 flex flex-col gap-6 text-center shadow-[0_0_30px_rgba(13,166,242,0.15)] origin-top transform transition-all duration-300 z-40">
+                    <a class="glow-text-cyan hover:text-white transition-colors text-lg tracking-widest" href="#about"
+                        onclick="toggleMobileMenu()">ABOUT</a>
+                    <a class="glow-text-cyan hover:text-white transition-colors text-lg tracking-widest"
+                        href="#projects" onclick="toggleMobileMenu()">PROJECTS</a>
+                    <a class="glow-text-cyan hover:text-white transition-colors text-lg tracking-widest" href="#skills"
+                        onclick="toggleMobileMenu()">SKILLS</a>
+                    <button
+                        class="bg-primary text-white px-4 py-3 rounded hover:brightness-110 transition-all uppercase glow-border-cyan w-full">
+                        Contact
+                    </button>
+                </div>
+    </div>
+    </nav>
+    </header>
+
+    <main class="relative z-20 flex flex-col items-center px-4 pt-24 pb-20">
+        <div class="layout-content-container flex flex-col max-w-[960px] w-full gap-16">
+            <section class="flex flex-col items-center justify-center min-h-[60vh] text-center gap-12 py-10 relative">
+                <div class="absolute inset-0 pointer-events-none -z-10">
+                    <div class="sakura-petal sakura-bg w-3 h-3" style="top: 10%; left: 20%; opacity: 0.6;"></div>
+                    <div class="sakura-petal sakura-neon w-2 h-2" style="bottom: 15%; right: 15%; opacity: 0.8;">
+                    </div>
+                    <div class="sakura-petal sakura-violet w-2 h-2" style="top: 40%; right: 10%; opacity: 0.5;">
+                    </div>
+                </div>
+                <div class="space-y-8">
+                    <h1 id="hero-title"
+                        class="text-neon-pink glow-text-pink leading-normal opacity-0 transition-opacity duration-300">
+                        SANDEEP_S
+                    </h1>
+                    <div class="flex items-center justify-center gap-4">
+                        <span class="h-px w-8 bg-primary"></span>
+                        <h2 class="text-primary glow-text-cyan uppercase leading-relaxed">
+                            Software_Developer
+                        </h2>
+                        <span class="h-px w-8 bg-primary"></span>
+                    </div>
+                </div>
+                <div class="flex flex-wrap justify-center gap-6">
+                    <button
+                        class="min-w-[180px] bg-primary text-white font-bold h-14 px-6 rounded glow-border-cyan uppercase">
+                        View Work
+                    </button>
+                    <a href="/resume.pdf" download="Sandeep_S_Resume.pdf"
+                        class="min-w-[180px] border border-primary text-primary font-bold h-14 px-6 rounded hover:bg-primary/10 transition-all uppercase flex items-center justify-center">
+                        Resume
+                    </a>
+                </div>
+            </section>
+
+            <section class="@container relative" id="about">
+                <div class="absolute -top-10 -left-10 layer-front pointer-events-none">
+                    <div class="sakura-petal sakura-neon w-4 h-4 rotate-45"></div>
+                </div>
+                <div class="hologram-panel p-8 md:p-12 rounded-lg flex flex-col md:flex-row gap-10 items-center">
+                    <div id="profile-image-container"
+                        class="w-full md:w-1/3 aspect-square bg-background-dark border-2 border-primary relative overflow-hidden rounded group cursor-crosshair">
+
+                        <!-- Bottom Image (Revealed Layer - Full Color / Original) -->
+                        <img alt="Original Profile" class="absolute inset-0 w-full h-full object-cover"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmYPfy32kpzD6L5uu432wkhBDDnOveCGpBYGooP0BSYR-Z-dqCgSEohwicx56UuQUxV3EyJRuI0ZmxvsGnOosIeZ5yrXIRh2YfDjOgMWGsjhK7uQ76oQ_Xoj6oCwF7Sc73nrXwAwoLZHrb6HcEdLXarMBIk044p5MoE7XltJZgHwpXElMhzI4DNbyapo-xqaENA1xCQIbB6Do4Np0BcV-WiaGEyOn7TDHaab0LHqp34iolJW8KYGxutMfY6uu108duFEj5Snl5-Itj" />
+
+                        <!-- Top Image (Cover Layer - Grayscale/Matrix Filter) -->
+                        <!-- This will be masked by JS -->
+                        <img id="profile-cover" alt="Hologram Profile"
+                            class="absolute inset-0 w-full h-full object-cover transition-opacity"
+                            style="filter: grayscale(100%) sepia(50%) hue-rotate(180deg) brightness(80%);"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmYPfy32kpzD6L5uu432wkhBDDnOveCGpBYGooP0BSYR-Z-dqCgSEohwicx56UuQUxV3EyJRuI0ZmxvsGnOosIeZ5yrXIRh2YfDjOgMWGsjhK7uQ76oQ_Xoj6oCwF7Sc73nrXwAwoLZHrb6HcEdLXarMBIk044p5MoE7XltJZgHwpXElMhzI4DNbyapo-xqaENA1xCQIbB6Do4Np0BcV-WiaGEyOn7TDHaab0LHqp34iolJW8KYGxutMfY6uu108duFEj5Snl5-Itj" />
+
+                        <!-- Decorative Overlays -->
+                        <div
+                            class="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent pointer-events-none mix-blend-overlay">
+                        </div>
+                        <div
+                            class="absolute top-2 right-2 sakura-petal sakura-bg w-2 h-2 opacity-60 pointer-events-none">
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-6 flex-1">
+                        <h2 class="text-white glow-text-cyan flex items-center gap-3">
+                            <span class="material-symbols-outlined text-primary !text-2xl">terminal</span>
+                            About_Me
+                        </h2>
+                        <p class="text-[#90b7cb] glow-text-cyan leading-[1.8] !text-[0.7rem]">
+                            Aspiring Software Developer with strong foundations in programming, data structures, and
+                            web development. Experienced in building real-world applications using modern JavaScript
+                            frameworks and Python. Interested in developing scalable, efficient software solutions
+                            and eager to contribute to a dynamic development team.
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div class="border border-primary/30 bg-primary/5 p-4 rounded text-center">
+                                <span class="material-symbols-outlined text-primary mb-2">code</span>
+                                <h3 class="glow-text-cyan !text-[0.55rem]">Web Developer</h3>
+                            </div>
+                            <div class="border border-primary/30 bg-primary/5 p-4 rounded text-center">
+                                <span class="material-symbols-outlined text-primary mb-2">data_object</span>
+                                <h3 class="glow-text-cyan !text-[0.55rem]">Python Developer</h3>
+                            </div>
+                            <div class="border border-primary/30 bg-primary/5 p-4 rounded text-center">
+                                <span class="material-symbols-outlined text-primary mb-2">coffee</span>
+                                <h3 class="glow-text-cyan !text-[0.55rem]">Java Developer</h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="absolute -bottom-5 right-10 layer-front pointer-events-none">
+                    <div class="sakura-petal sakura-violet w-3 h-3 rotate-12"></div>
+                </div>
+            </section>
+
+            <section class="pt-10 relative" id="projects">
+                <div class="absolute inset-0 pointer-events-none -z-10 overflow-hidden">
+                    <div class="sakura-petal sakura-bg w-2 h-2" style="top: 20%; left: 5%;"></div>
+                    <div class="sakura-petal sakura-neon w-2 h-2" style="top: 50%; right: 5%;"></div>
+                    <div class="sakura-petal sakura-violet w-2 h-2" style="bottom: 10%; left: 15%;"></div>
+                </div>
+                <div
+                    class="flex flex-col md:flex-row items-end justify-between px-4 pb-6 border-b border-primary/20 gap-4">
+                    <div>
+                        <h2 class="text-white glow-text-cyan uppercase">Projects</h2>
+                        <p class="text-primary glow-text-cyan !text-[0.55rem] mt-4">ACTIVE_TRANSMISSIONS</p>
+                    </div>
+                    <a class="text-primary glow-text-cyan hover:text-white transition-colors" href="#">BROWSE_ALL
+                        -&gt;</a>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 py-8">
+                    <div
+                        class="group relative bg-background-dark border border-primary/30 rounded-lg overflow-hidden hover:border-primary transition-all duration-300">
+                        <div class="aspect-video relative overflow-hidden">
+                            <img alt="Netflix Clone Interface"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdTKFyLQCopGqd4Sw-0_HQJ81aQTUp7a_dYQIai-kMyJBVe32CrH_ZkNUx2v4Ommi7DNCzV2UQ9KUT__2Cv2CPIv_HKc9OitmR-zW91VXnHMULs8_nPxx1kHUnX4RBNd19xaXrjQomJpjHzY80Q-f_YooBggkEujkykXsoou4PBo6optEhuYpl1IDFWMkRRhC1EazHBwL1tLgTly3N0KHMo7AoCaph1mE-egi-JSbrLCsEdQkDDLx7oK_lG-GstE2RppfG3QscbTt2" />
+                            <div class="absolute inset-0 bg-primary/20 mix-blend-overlay"></div>
+                            <div class="absolute bottom-2 left-2 sakura-petal sakura-neon w-2 h-2 opacity-50"></div>
+                        </div>
+                        <div class="p-6 space-y-4">
+                            <h3 class="text-white glow-text-cyan !text-[0.8rem]">Netflix Clone</h3>
+                            <p class="text-[#90b7cb] !text-[0.6rem] leading-relaxed">Responsive homepage clone with
+                                custom UI components.</p>
+                            <div class="flex gap-2">
+                                <span
+                                    class="!text-[0.5rem] border border-primary/40 px-2 py-1 rounded text-primary glow-text-cyan">HTML5</span>
+                                <span
+                                    class="!text-[0.5rem] border border-primary/40 px-2 py-1 rounded text-primary glow-text-cyan">CSS3</span>
+                                <span
+                                    class="!text-[0.5rem] border border-primary/40 px-2 py-1 rounded text-primary glow-text-cyan">JS</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="group relative bg-background-dark border border-primary/30 rounded-lg overflow-hidden hover:border-primary transition-all duration-300">
+                        <div class="aspect-video relative overflow-hidden">
+                            <img alt="Emotion Detection System"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZmfVkBbVvu8OGq5VUVT-UbMRBwPb7cHrJYFb30_PERXS8X0lDXafEboiDbYH7ahnKGSdD2jHU801MtFDLdt7_KR6n5d8I31fO682RYydmUCbXCajLkVu3qnZCllR4A78t_-IHg8FzeipXxu89n8_QT9hNw9D6SVxuX1m2FgqGxD1ngdJ0BNU4d8VoH3CH8hZ9v-GQWDPBxZBQhTBN9PZ1V3Aaygi95DxMFHFHKEOcAHRsHRElf-24u-g3djP4oa7D8330u7VnzU0l" />
+                            <div class="absolute inset-0 bg-primary/20 mix-blend-overlay"></div>
+                        </div>
+                        <div class="p-6 space-y-4">
+                            <h3 class="text-white glow-text-cyan !text-[0.8rem]">Emotion UI</h3>
+                            <p class="text-[#90b7cb] !text-[0.6rem] leading-relaxed">Real-time facial emotion
+                                detection web application using webcam.</p>
+                            <div class="flex gap-2">
+                                <span
+                                    class="!text-[0.5rem] border border-primary/40 px-2 py-1 rounded text-primary glow-text-cyan">PYTHON</span>
+                                <span
+                                    class="!text-[0.5rem] border border-primary/40 px-2 py-1 rounded text-primary glow-text-cyan">CV</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div
+                        class="group relative bg-background-dark border border-primary/30 rounded-lg overflow-hidden hover:border-primary transition-all duration-300">
+                        <div class="aspect-video relative overflow-hidden">
+                            <img alt="Deepfake Forensics"
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCz-Hr1MVI6yYgSZG_rKnd4RiS4cDntF89OcoZSi0Wmn54qU9VhYkGWb6cNjCjddna-lMsJYZSdZdGsAnkfKHUs7LrqlkWyXCSiXTAA6BxYQGBvlEYjlDfuhYHzv1Ue48FlCAAbXOs2h6Ku9x-yhB5zGKwOzIz8q_x3J2L3ckJqX0_FcgVu4VWIhdIY9_nUEbaP8ZHfpbZBLgI8uB_VcllmDEs_v8CorurIW1gawkkSnsK3KBIH78R_ekX17kLOfekr71BJ0P7vaW5v" />
+                            <div class="absolute inset-0 bg-primary/20 mix-blend-overlay"></div>
+                            <div class="absolute top-2 right-2 sakura-petal sakura-bg w-3 h-3 opacity-70"></div>
+                        </div>
+                        <div class="p-6 space-y-4">
+                            <h3 class="text-white glow-text-cyan !text-[0.8rem]">Deepfake Forensics</h3>
+                            <p class="text-[#90b7cb] !text-[0.6rem] leading-relaxed">Framework for estimating
+                                logical editing layers in deepfake images.</p>
+                            <div class="flex gap-2">
+                                <span
+                                    class="!text-[0.5rem] border border-primary/40 px-2 py-1 rounded text-primary glow-text-cyan">DEEP
+                                    LEARNING</span>
+                                <span
+                                    class="!text-[0.5rem] border border-primary/40 px-2 py-1 rounded text-primary glow-text-cyan">PYTHON</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="py-12 relative" id="skills">
+                <div class="absolute inset-0 pointer-events-none layer-mid">
+                    <div class="sakura-petal sakura-violet w-2 h-2" style="top: 10%; left: 35%;"></div>
+                    <div class="sakura-petal sakura-bg w-3 h-3" style="bottom: 10%; right: 40%;"></div>
+                </div>
+                <div class="text-center mb-10">
+                    <h2 class="glow-text-cyan text-white uppercase mb-6">Technical_Stack</h2>
+                    <div class="h-1 w-20 bg-primary mx-auto shadow-[0_0_10px_#0da6f2]"></div>
+                </div>
+                <div class="flex flex-wrap justify-center gap-6">
+                    <!-- Python -->
+                    <div
+                        class="flex flex-col items-center gap-3 bg-background-dark/50 p-4 rounded border border-primary/20 hover:border-neon-cyan hover:shadow-[0_0_15px_rgba(0,255,255,0.4)] hover:-translate-y-2 hover:rotate-1 transition-all duration-300 w-32 group cursor-pointer">
+                        <i
+                            class="devicon-python-plain text-4xl text-primary group-hover:text-neon-cyan transition-colors duration-300"></i>
+                        <span
+                            class="glow-text-cyan !text-[0.6rem] tracking-wider group-hover:tracking-widest transition-all duration-300">PYTHON</span>
+                    </div>
+                    <!-- Java -->
+                    <div
+                        class="flex flex-col items-center gap-3 bg-background-dark/50 p-4 rounded border border-primary/20 hover:border-neon-cyan hover:shadow-[0_0_15px_rgba(0,255,255,0.4)] hover:-translate-y-2 hover:-rotate-1 transition-all duration-300 w-32 group cursor-pointer">
+                        <i
+                            class="devicon-java-plain text-4xl text-primary group-hover:text-neon-cyan transition-colors duration-300"></i>
+                        <span
+                            class="glow-text-cyan !text-[0.6rem] tracking-wider group-hover:tracking-widest transition-all duration-300">JAVA</span>
+                    </div>
+                    <!-- JavaScript -->
+                    <div
+                        class="flex flex-col items-center gap-3 bg-background-dark/50 p-4 rounded border border-primary/20 hover:border-neon-cyan hover:shadow-[0_0_15px_rgba(0,255,255,0.4)] hover:-translate-y-2 hover:rotate-1 transition-all duration-300 w-32 group cursor-pointer">
+                        <i
+                            class="devicon-javascript-plain text-4xl text-primary group-hover:text-neon-cyan transition-colors duration-300"></i>
+                        <span
+                            class="glow-text-cyan !text-[0.6rem] tracking-wider group-hover:tracking-widest transition-all duration-300">JAVASCRIPT</span>
+                    </div>
+                    <!-- HTML5/CSS3 -->
+                    <div
+                        class="flex flex-col items-center gap-3 bg-background-dark/50 p-4 rounded border border-primary/20 hover:border-neon-cyan hover:shadow-[0_0_15px_rgba(0,255,255,0.4)] hover:-translate-y-2 hover:-rotate-1 transition-all duration-300 w-32 group cursor-pointer">
+                        <div class="flex gap-2">
+                            <i
+                                class="devicon-html5-plain text-3xl text-primary group-hover:text-neon-cyan transition-colors duration-300"></i>
+                            <i
+                                class="devicon-css3-plain text-3xl text-primary group-hover:text-neon-cyan transition-colors duration-300"></i>
+                        </div>
+                        <span
+                            class="glow-text-cyan !text-[0.6rem] tracking-wider group-hover:tracking-widest transition-all duration-300">HTML5/CSS3</span>
+                    </div>
+                    <!-- Data Structures (Custom Icon) -->
+                    <div
+                        class="flex flex-col items-center gap-3 bg-background-dark/50 p-4 rounded border border-primary/20 hover:border-neon-cyan hover:shadow-[0_0_15px_rgba(0,255,255,0.4)] hover:-translate-y-2 hover:rotate-1 transition-all duration-300 w-32 group cursor-pointer">
+                        <span
+                            class="material-symbols-outlined text-4xl text-primary group-hover:text-neon-cyan transition-colors duration-300">Account_Tree</span>
+                        <span
+                            class="glow-text-cyan !text-[0.6rem] tracking-wider group-hover:tracking-widest transition-all duration-300">DSA</span>
+                    </div>
+                    <!-- SQL -->
+                    <div
+                        class="flex flex-col items-center gap-3 bg-background-dark/50 p-4 rounded border border-primary/20 hover:border-neon-cyan hover:shadow-[0_0_15px_rgba(0,255,255,0.4)] hover:-translate-y-2 hover:-rotate-1 transition-all duration-300 w-32 group cursor-pointer">
+                        <i
+                            class="devicon-mysql-plain text-4xl text-primary group-hover:text-neon-cyan transition-colors duration-300"></i>
+                        <span
+                            class="glow-text-cyan !text-[0.6rem] tracking-wider group-hover:tracking-widest transition-all duration-300">SQL</span>
+                    </div>
+                    <!-- Git/GitHub -->
+                    <div
+                        class="flex flex-col items-center gap-3 bg-background-dark/50 p-4 rounded border border-primary/20 hover:border-neon-cyan hover:shadow-[0_0_15px_rgba(0,255,255,0.4)] hover:-translate-y-2 hover:rotate-1 transition-all duration-300 w-32 group cursor-pointer">
+                        <i
+                            class="devicon-git-plain text-4xl text-primary group-hover:text-neon-cyan transition-colors duration-300"></i>
+                        <span
+                            class="glow-text-cyan !text-[0.6rem] tracking-wider group-hover:tracking-widest transition-all duration-300">GIT/GITHUB</span>
+                    </div>
+                    <!-- Problem Solving -->
+                    <div
+                        class="flex flex-col items-center gap-3 bg-background-dark/50 p-4 rounded border border-primary/20 hover:border-neon-cyan hover:shadow-[0_0_15px_rgba(0,255,255,0.4)] hover:-translate-y-2 hover:-rotate-1 transition-all duration-300 w-32 group cursor-pointer">
+                        <span
+                            class="material-symbols-outlined text-4xl text-primary group-hover:text-neon-cyan transition-colors duration-300">Psychology</span>
+                        <span
+                            class="glow-text-cyan !text-[0.6rem] tracking-wider group-hover:tracking-widest transition-all duration-300">LOGIC</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="pb-20 relative" id="contact">
+                <div
+                    class="absolute top-0 left-0 sakura-petal sakura-bg w-4 h-4 -translate-x-4 -translate-y-4 layer-front">
+                </div>
+                <div
+                    class="absolute bottom-0 right-0 sakura-petal sakura-neon w-4 h-4 translate-x-4 translate-y-4 layer-front">
+                </div>
+                <div
+                    class="hologram-panel p-8 md:p-12 rounded-lg border-2 border-primary shadow-[0_0_30px_rgba(13,166,242,0.2)]">
+                    <div class="max-w-[700px] mx-auto space-y-12">
+                        <div class="text-center space-y-4">
+                            <h2 class="glow-text-pink uppercase text-white">Initiate Transmission</h2>
+                            <p class="text-primary glow-text-cyan !text-[0.6rem] uppercase">Ready for deployment?
+                            </p>
+                        </div>
+                        <form id="contact-form" class="space-y-6">
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-2">
+                                    <label
+                                        class="text-xs text-primary glow-text-cyan tracking-widest uppercase">Operator_Name</label>
+                                    <input type="text" name="user_name"
+                                        class="w-full bg-background-dark/50 border border-primary/30 rounded p-3 text-white focus:border-primary focus:glow-border-cyan focus:outline-none transition-all placeholder:text-white/20 font-sans"
+                                        placeholder="ENTER_ID" required>
+                                </div>
+                                <div class="space-y-2">
+                                    <label
+                                        class="text-xs text-primary glow-text-cyan tracking-widest uppercase">Comms_Frequency</label>
+                                    <input type="email" name="user_email"
+                                        class="w-full bg-background-dark/50 border border-primary/30 rounded p-3 text-white focus:border-primary focus:glow-border-cyan focus:outline-none transition-all placeholder:text-white/20 font-sans"
+                                        placeholder="EMAIL_ADDRESS" required>
+                                </div>
+                            </div>
+                            <div class="space-y-2">
+                                <label
+                                    class="text-xs text-primary glow-text-cyan tracking-widest uppercase">Transmission_Data</label>
+                                <textarea name="message" rows="5"
+                                    class="w-full bg-background-dark/50 border border-primary/30 rounded p-3 text-white focus:border-primary focus:glow-border-cyan focus:outline-none transition-all placeholder:text-white/20 font-sans"
+                                    placeholder="ENTER_MESSAGE_CONTENT..." required></textarea>
+                            </div>
+                            <button type="submit"
+                                class="group relative inline-flex items-center justify-center px-8 py-3 bg-primary/10 text-primary border border-primary font-pixel text-xs tracking-widest uppercase hover:bg-primary hover:text-white transition-all w-full md:w-auto">
+                                <span class="relative z-10 flex items-center gap-2">
+                                    <span
+                                        class="material-symbols-outlined text-sm group-hover:animate-pulse">send</span>
+                                    INITIATE_TRANSMISSION
+                                </span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+            <footer
+                class="border-t border-primary/20 pt-10 pb-6 flex flex-col md:flex-row items-center justify-between gap-8 px-4 relative">
+                <div class="absolute -top-4 left-1/2 sakura-petal sakura-bg w-2 h-2 opacity-40"></div>
+                <div class="w-full text-center mt-12 pt-8 border-t border-primary/20">
+                    <p class="text-[0.6rem] text-primary/60 uppercase tracking-widest">
+                        &copy; 2026 SANDEEP_S. ALL RIGHTS RESERVED. <br>
+                        <span class="text-neon-pink">sandeep200580@gmail.com</span>
+                    </p>
+                </div>
+            </footer>
+        </div>
+    </main>
+    </div>
+
+    <script>
+        (function () {
+            const init = () => {
+                // Prevent double initialization
+                if (window.appInitialized) return;
+                window.appInitialized = true;
+
+                const loadingScreen = document.getElementById('loading-screen');
+                const mainContent = document.getElementById('main-content');
+                const progressText = document.getElementById('progress-text');
+                const progressBarContainer = document.getElementById('progress-bar-container');
+                const statusText = document.getElementById('loading-status');
+                const skipBtn = document.getElementById('skip-btn');
+
+                // Block Config
+                const totalBlocks = 20;
+                let filledBlocks = 0;
+                let loadingInterval;
+
+                // Initialize Empty Blocks
+                progressBarContainer.innerHTML = '';
+                const blockWidthPercent = 100 / totalBlocks; // 5%
+
+                for (let i = 0; i < totalBlocks; i++) {
+                    const block = document.createElement('div');
+                    block.style.width = `calc(${blockWidthPercent}% - 4px)`;
+                    block.style.marginRight = '4px';
+                    block.style.height = '100%';
+                    block.classList.add('transition-all', 'duration-200');
+                    progressBarContainer.appendChild(block);
+                }
+
+                const blocks = Array.from(progressBarContainer.children);
+
+                function updateProgress() {
+                    if (filledBlocks < totalBlocks) {
+                        // Fill Block
+                        const currentBlock = blocks[filledBlocks];
+                        currentBlock.classList.add('bg-loader-pink', 'glow-pink-loader');
+                        filledBlocks++;
+
+                        // Update Text
+                        const percentage = Math.round((filledBlocks / totalBlocks) * 100);
+                        progressText.textContent = `${percentage}%`;
+
+                        // Update Status Text randomly
+                        if (percentage === 30) statusText.innerHTML = 'LOADING_MODULES: <span class="text-violet-400">NEON_GRID</span>';
+                        if (percentage === 60) statusText.innerHTML = 'LOADING_MODULES: <span class="text-violet-400">BIO_DATA</span>';
+                        if (percentage === 90) statusText.innerHTML = 'LOADING_MODULES: <span class="text-violet-400">FINALIZING...</span>';
+
+                    } else {
+                        finishLoading();
+                    }
+                }
+
+                function finishLoading() {
+                    clearInterval(loadingInterval);
+                    loadingScreen.classList.add('fade-out');
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+
+                        // Clear title immediately so it's not visible during fade-in
+                        const titleStub = document.getElementById('hero-title');
+                        if (titleStub) titleStub.textContent = '';
+
+                        mainContent.classList.add('fade-in');
+
+                        // Trigger Typing Animation
+                        setTimeout(() => {
+                            typeWriter("SANDEEP_S", "hero-title", 150);
+                        }, 500);
+                    }, 1000);
+                }
+
+                function typeWriter(text, elementId, speed) {
+                    const element = document.getElementById(elementId);
+                    if (!element) return;
+
+                    element.classList.remove('opacity-0'); // Make visible
+                    element.textContent = ''; // Clear initial text
+                    let i = 0;
+
+                    function type() {
+                        if (i < text.length) {
+                            element.textContent += text.charAt(i);
+                            i++;
+                            setTimeout(type, speed);
+                        }
+                    }
+                    type();
+                }
+
+                // Start Loading Simulation
+                const intervalTime = 150;
+                loadingInterval = setInterval(updateProgress, intervalTime);
+
+                // ==========================================
+                // FLOWER PETAL INTERACTION (FREE FLOW + MOUSE)
+                // ==========================================
+                const petals = document.querySelectorAll('.sakura-petal, .pixel-sakura');
+                let petalData = [];
+                let mouseX = -1000;
+                let mouseY = -1000;
+
+                function initPetals() {
+                    petalData = Array.from(petals).map(petal => {
+                        // Clear transform momentarily to get true original position
+                        const currentTransform = petal.style.transform;
+                        petal.style.transform = '';
+                        const rect = petal.getBoundingClientRect();
+                        petal.style.transform = currentTransform; // Restore
+
+                        // Random velocity for free flow
+                        const vx = (Math.random() - 0.5) * 0.5; // Slow horizontal drift
+                        const vy = (Math.random() * 0.5) + 0.2; // Slow downward fall
+
+                        return {
+                            element: petal,
+                            initialX: rect.left + rect.width / 2,
+                            initialY: rect.top + rect.height / 2,
+                            x: 0, // Current drift offset X
+                            y: 0, // Current drift offset Y
+                            vx: vx,
+                            vy: vy,
+                            initialTransform: petal.dataset.initialTransform || (petal.style.transform !== 'none' ? petal.style.transform : '')
+                        };
+                    });
+                }
+
+                // Initialize positions
+                petals.forEach(p => p.dataset.initialTransform = p.style.transform);
+                initPetals();
+                window.addEventListener('resize', initPetals);
+
+                // Track mouse continuously
+                document.addEventListener('mousemove', (e) => {
+                    mouseX = e.clientX;
+                    mouseY = e.clientY;
+                });
+
+                function updateParticles() {
+                    const radius = 150; // Interaction radius
+                    const viewportWidth = window.innerWidth;
+                    const viewportHeight = window.innerHeight;
+
+                    petalData.forEach(p => {
+                        // 1. Apply Drift
+                        p.x += p.vx;
+                        p.y += p.vy;
+
+                        // 2. Screen Wrapping
+                        // Calculate actual screen position (Initial + Drift)
+                        let screenX = p.initialX + p.x;
+                        let screenY = p.initialY + p.y;
+
+                        if (screenX > viewportWidth + 50) {
+                            p.x -= (viewportWidth + 100);
+                        } else if (screenX < -50) {
+                            p.x += (viewportWidth + 100);
+                        }
+
+                        if (screenY > viewportHeight + 50) {
+                            p.y -= (viewportHeight + 100);
+                        } else if (screenY < -50) {
+                            p.y += (viewportHeight + 100);
+                        }
+
+                        // 3. Mouse Interaction (Repulsion)
+                        // We calculate distance from the current visual position
+                        const currentVisualX = p.initialX + p.x;
+                        const currentVisualY = p.initialY + p.y;
+
+                        const deltaX = mouseX - currentVisualX;
+                        const deltaY = mouseY - currentVisualY;
+                        const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+                        let pushX = 0;
+                        let pushY = 0;
+
+                        if (distance < radius) {
+                            const force = (radius - distance) / radius;
+                            const angle = Math.atan2(deltaY, deltaX);
+
+                            // Stronger push away effect
+                            pushX = Math.cos(angle) * force * -50;
+                            pushY = Math.sin(angle) * force * -50;
+                        }
+
+                        // Apply all transforms: Drift + Push + Initial Rotation/Scale
+                        p.element.style.transform = `translate(${p.x + pushX}px, ${p.y + pushY}px) ${p.initialTransform}`;
+                    });
+
+                    requestAnimationFrame(updateParticles);
+                }
+
+                // Start Loop
+                updateParticles();
+
+                // Skip Handler
+                skipBtn.addEventListener('click', () => {
+                    filledBlocks = totalBlocks; // Jump to end
+                    blocks.forEach(b => b.classList.add('bg-loader-pink', 'glow-pink-loader'));
+                    progressText.textContent = '100%';
+                    finishLoading();
+                });
+
+                // Smooth Scrolling
+                document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                    anchor.addEventListener('click', function (e) {
+                        e.preventDefault();
+                        document.querySelector(this.getAttribute('href')).scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                    });
+                });
+
+                // EmailJS Form Handler
+                const contactForm = document.getElementById('contact-form');
+                if (contactForm) {
+                    contactForm.addEventListener('submit', function (e) {
+                        e.preventDefault();
+                        const btn = this.querySelector('button');
+                        const originalText = btn.innerHTML;
+
+                        // Loading State
+                        btn.innerHTML = '<span class="animate-pulse">TRANSMITING_DATA...</span>';
+                        btn.disabled = true;
+
+                        emailjs.sendForm('service_ww57esb', 'template_2t3je25', this)
+                            .then(() => {
+                                // Success State
+                                btn.classList.add('bg-green-500', 'border-green-500', 'text-white');
+                                btn.innerHTML = '<span class="material-symbols-outlined">check_circle</span> TRANSMISSION_COMPLETE';
+                                contactForm.reset();
+
+                                setTimeout(() => {
+                                    btn.classList.remove('bg-green-500', 'border-green-500', 'text-white');
+                                    btn.innerHTML = originalText;
+                                    btn.disabled = false;
+                                }, 3000);
+                            }, (error) => {
+                                // Error State
+                                console.error('FAILED...', error);
+                                btn.classList.add('bg-red-500', 'border-red-500', 'text-white');
+                                btn.innerHTML = '<span class="material-symbols-outlined">error</span> SIGNAL_LOST';
+
+                                setTimeout(() => {
+                                    btn.classList.remove('bg-red-500', 'border-red-500', 'text-white');
+                                    btn.innerHTML = originalText;
+                                    btn.disabled = false;
+                                }, 3000);
+                            });
+                    });
+                }
+                // Profile Image Reveal Effect
+                const profileContainer = document.getElementById('profile-image-container');
+                const profileCover = document.getElementById('profile-cover');
+
+                if (profileContainer && profileCover) {
+                    let targetX = -100, targetY = -100;
+                    let currentX = -100, currentY = -100;
+                    let isHovering = false;
+                    let animationFrameId;
+
+                    profileContainer.addEventListener('mouseenter', (e) => {
+                        const rect = profileContainer.getBoundingClientRect();
+                        targetX = e.clientX - rect.left;
+                        targetY = e.clientY - rect.top;
+                        // Start closer to reduce jump
+                        currentX = targetX;
+                        currentY = targetY;
+
+                        isHovering = true;
+                        // Cancel any running loop to be safe
+                        if (animationFrameId) cancelAnimationFrame(animationFrameId);
+                        animate();
+                    });
+
+                    profileContainer.addEventListener('mousemove', (e) => {
+                        const rect = profileContainer.getBoundingClientRect();
+                        targetX = e.clientX - rect.left;
+                        targetY = e.clientY - rect.top;
+                    });
+
+                    profileContainer.addEventListener('mouseleave', () => {
+                        isHovering = false;
+                        profileCover.style.webkitMaskImage = 'none';
+                        profileCover.style.maskImage = 'none';
+                        if (animationFrameId) cancelAnimationFrame(animationFrameId);
+                    });
+
+                    function animate() {
+                        if (!isHovering) return;
+
+                        // Smooth LERP (0.15 = weight)
+                        currentX += (targetX - currentX) * 0.1;
+                        currentY += (targetY - currentY) * 0.1;
+
+                        // Reveal circle
+                        const maskValue = `radial-gradient(circle 80px at ${currentX}px ${currentY}px, transparent 99%, black 100%)`;
+                        profileCover.style.webkitMaskImage = maskValue;
+                        profileCover.style.maskImage = maskValue;
+
+                        animationFrameId = requestAnimationFrame(animate);
+                    }
+                }
+
+                // Mobile Menu Toggle
+                const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+                const mobileMenu = document.getElementById('mobile-menu');
+
+                if (mobileMenuBtn && mobileMenu) {
+                    // Ensure globally available if needed, or just use event listeners
+                    window.toggleMobileMenu = () => {
+                        mobileMenu.classList.toggle('hidden');
+                    };
+
+                    mobileMenuBtn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        toggleMobileMenu();
+                    });
+
+                    // Close menu when clicking links
+                    const mobileLinks = mobileMenu.querySelectorAll('a');
+                    mobileLinks.forEach(link => {
+                        link.addEventListener('click', () => {
+                            mobileMenu.classList.add('hidden');
+                        });
+                    });
+
+                    // Close menu when clicking outside
+                    document.addEventListener('click', (e) => {
+                        if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                            mobileMenu.classList.add('hidden');
+                        }
+                    });
+                }
+            };
+
+            // Safety fallback
+            setTimeout(() => {
+                const loadingScreen = document.getElementById('loading-screen');
+                if (loadingScreen && getComputedStyle(loadingScreen).display !== 'none') {
+                    console.warn('Loading screen timed out, forcing hide.');
+                    loadingScreen.style.display = 'none';
+                    const mainContent = document.getElementById('main-content');
+                    if (mainContent) mainContent.classList.add('fade-in');
+                }
+            }, 5000);
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+        })();
+    </script>
+</body>
+
+</html>

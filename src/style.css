@@ -1,0 +1,351 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    body {
+        @apply font-pixel bg-[#101c22] text-white selection:bg-primary/40;
+        line-height: 1.6;
+    }
+}
+
+/* Portfolio Specific Styles */
+.neon-grid {
+    background-image:
+        linear-gradient(rgba(13, 166, 242, 0.2) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(13, 166, 242, 0.2) 1px, transparent 1px);
+    background-size: 50px 50px;
+    perspective: 500px;
+    transform: rotateX(45deg);
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    z-index: -1;
+    mask-image: linear-gradient(to bottom, transparent, black 50%, transparent);
+}
+
+.scanlines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.02), rgba(0, 255, 0, 0.01), rgba(0, 255, 0, 0.02));
+    background-size: 100% 4px, 3px 100%;
+    pointer-events: none;
+    z-index: 100;
+}
+
+.glow-text-pink {
+    text-shadow: 0 0 5px #ff00ff, 0 0 10px #ff00ff;
+}
+
+.glow-text-cyan {
+    text-shadow: 0 0 5px #0da6f2, 0 0 10px #0da6f2;
+}
+
+.glow-border-cyan {
+    box-shadow: 0 0 15px rgba(13, 166, 242, 0.4);
+    border: 1px solid rgba(13, 166, 242, 0.8);
+}
+
+.hologram-panel {
+    background: rgba(16, 29, 35, 0.75);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(13, 166, 242, 0.3);
+    position: relative;
+    z-index: 40;
+}
+
+/* Loading Screen Specific Styles */
+.crt-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+    background-size: 100% 4px, 3px 100%;
+    pointer-events: none;
+    z-index: 50;
+}
+
+.pixel-sakura {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background-color: #ff2d55;
+    box-shadow: 0 0 5px #ff2d55;
+}
+
+.glow-cyan-loader {
+    text-shadow: 0 0 10px rgba(37, 192, 244, 0.7);
+}
+
+.glow-pink-loader {
+    box-shadow: 0 0 15px rgba(255, 45, 85, 0.5);
+}
+
+.pixel-border-loader {
+    border: 4px solid #25c0f4;
+    box-shadow: 0 0 15px rgba(37, 192, 244, 0.3), inset 0 0 10px rgba(37, 192, 244, 0.2);
+}
+
+h1 {
+    font-size: clamp(1.5rem, 5vw, 4rem);
+}
+
+h2 {
+    font-size: clamp(1rem, 3vw, 1.5rem);
+}
+
+p,
+a,
+span,
+label,
+input,
+textarea,
+button {
+    font-size: 0.65rem;
+}
+
+.sakura-petal {
+    position: absolute;
+    pointer-events: none;
+    box-shadow: 0 0 8px rgba(255, 0, 255, 0.6);
+}
+
+.sakura-bg {
+    background-color: #ffb7c5;
+}
+
+.sakura-violet {
+    background-color: #7b42ff;
+}
+
+.sakura-neon {
+    background-color: #ff00ff;
+    box-shadow: 0 0 12px #ff00ff;
+}
+
+.layer-behind {
+    z-index: 5;
+}
+
+.layer-mid {
+    z-index: 15;
+}
+
+.layer-front {
+    z-index: 50;
+}
+
+.floating-petal {
+    position: absolute;
+    image-rendering: pixelated;
+}
+
+/* Transitions */
+.fade-out {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1s ease-out;
+}
+
+.fade-in {
+    opacity: 1 !important;
+    transition: opacity 1s ease-in;
+}
+
+/* Fluid Profile Animation */
+@keyframes fluid-border {
+    0% {
+        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    }
+
+    50% {
+        border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+    }
+
+    100% {
+        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    }
+}
+
+.profile-circle {
+    animation: fluid-border 8s ease-in-out infinite;
+    border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+}
+
+/* ========================================== */
+/* CERTIFICATIONS (Holo-Vault Dimension)      */
+/* ========================================== */
+.dimension-vault {
+    /* background: radial-gradient(circle at center, #050a10 0%, #000000 100%); */
+    background: transparent;
+    position: relative;
+    overflow: hidden;
+    perspective: 1000px;
+}
+
+.dimension-grid {
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background-image:
+        linear-gradient(rgba(0, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 60px 60px;
+    transform: perspective(500px) rotateX(60deg) translateY(0) translateZ(-200px);
+    animation: grid-move 20s linear infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes grid-move {
+    0% {
+        transform: perspective(500px) rotateX(60deg) translateY(0) translateZ(-200px);
+    }
+
+    100% {
+        transform: perspective(500px) rotateX(60deg) translateY(60px) translateZ(-200px);
+    }
+}
+
+/* 3D Carousel Scene */
+.carousel-scene {
+    width: 300px;
+    height: 200px;
+    margin: 40px auto;
+    perspective: 1000px;
+    position: relative;
+    z-index: 10;
+}
+
+.carousel-ring {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    transform-style: preserve-3d;
+    transform: translateZ(-300px);
+    /* Push back to center rotation */
+    /* animation: rotate-ring 20s infinite linear; */
+}
+
+.carousel-ring:hover {
+    animation-play-state: paused;
+}
+
+@keyframes rotate-ring {
+    0% {
+        transform: translateZ(-300px) rotateY(0deg);
+    }
+
+    100% {
+        transform: translateZ(-300px) rotateY(-360deg);
+    }
+}
+
+.cert-card {
+    position: absolute;
+    width: 280px;
+    height: 180px;
+    left: 10px;
+    top: 10px;
+    background: rgba(13, 166, 242, 0.1);
+    border: 1px solid rgba(13, 166, 242, 0.5);
+    backdrop-filter: blur(4px);
+    color: white;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 0 15px rgba(13, 166, 242, 0.2);
+    cursor: pointer;
+    transition: all 0.3s;
+    user-select: none;
+}
+
+.cert-card:hover {
+    background: rgba(13, 166, 242, 0.2);
+    box-shadow: 0 0 25px rgba(13, 166, 242, 0.5);
+    border-color: #0da6f2;
+}
+
+/* Holographic Modal */
+.cert-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    width: 90%;
+    max-width: 500px;
+    background: rgba(10, 20, 30, 0.95);
+    border: 2px solid #0da6f2;
+    padding: 2rem;
+    z-index: 200;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 50px rgba(13, 166, 242, 0.3), inset 0 0 20px rgba(13, 166, 242, 0.1);
+}
+
+.cert-modal.open {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, -50%) scale(1);
+    backdrop-filter: blur(10px);
+}
+
+.cert-modal::before {
+    content: "RESTRICTED_ACCESS // CLASSIFIED";
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    background: #050a10;
+    padding: 0 10px;
+    color: #0da6f2;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    color: #0da6f2;
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+
+
+@media (max-width: 768px) {
+    .carousel-scene {
+        transform: scale(0.7);
+        margin: 20px auto;
+    }
+
+    .cert-modal {
+        width: 95%;
+        padding: 1.5rem;
+    }
+}
+
+/* Navbar Glow Transition */
+/* Navbar Glow Transition */
+.glow-transition {
+    color: #ffffff;
+    text-shadow: 0 0 5px #0da6f2, 0 0 10px rgba(13, 166, 242, 0.5);
+    transition: all 0.3s ease;
+}
+
+.glow-transition:hover {
+    color: #ffffff;
+    text-shadow: 0 0 20px #0da6f2, 0 0 40px #0da6f2, 0 0 60px #0da6f2;
+}
